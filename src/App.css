@@ -16,12 +16,13 @@
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #c3c3c3;
 }
 
 .App-link {
@@ -35,4 +36,188 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.padding-sm{
+  padding: 5px;
+}
+
+.padding-md{
+  padding: 15px;
+}
+
+.padding-lg{
+  padding: 25px;
+}
+
+.margin-sm{
+  margin: 5px;
+}
+
+.margin-md{
+  margin: 14px;
+}
+
+.margin-lg{
+  margin: 25px;
+}
+
+.start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.start > * {
+  display: flex;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.centered > * {
+  display: flex;
+}
+
+.end {
+  justify-content: flex-end;
+  justify-items: flex-end;
+  align-items: flex-end;
+  align-content: flex-end;
+}
+
+.space-between {
+  justify-content: space-between !important;
+}
+
+.full-height{
+  height: 100%;
+  flex-grow: 2;
+}
+
+.half-height{
+  height: 50%;
+}
+
+.full-width{
+  width: 100%;
+}
+
+.half-width{
+  width: 50%;
+}
+
+.horizontal-list{
+  display: flex;
+  flex-direction: row;
+}
+
+.horizontal-list > input, .horizontal-list > div {
+  display: flex;
+
+}
+
+.vertical-list{
+  display: flex;
+  flex-direction: column;
+}
+
+.vertical-list > input {
+  display: flex;
+
+}
+
+input {
+  width: 450px;
+  height: 25px;
+  padding: 10px;
+  
+  border-radius: 10px;
+  border: #333942 solid;
+  background: transparent;
+
+  font-size: 12pt;
+  font-weight: bold;
+  color:white;
+}
+
+button{
+  border-radius: 20px;
+  border: black solid;
+  background: #538945;
+  color:white;
+}
+
+.flex{
+  display: flex;
+}
+
+.login-button {
+  height: 172px;
+  width: 125px;
+  
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+.chatLogContainer{
+  border-radius: 15px;
+  flex-grow: 3;
+  max-height: 65vh;
+  overflow: auto;
+}
+
+.chatEntryContainer{
+  width: 775px;
+  border-radius: 15px;
+  border: solid #333942;
+}
+
+.chatEntryTimestamp{
+  color: #878787;
+  background: #333942;
+  font-size: 13pt;
+  margin-left: 4px;
+  border-radius: 8px;
+  padding-left: 4px;
+  padding-right: 6px;
+}
+
+.chatEntrySender{
+  font-size: 14pt;
+  white-space: nowrap;
+}
+
+.chatEntryContent{
+  font-size: 14pt;
+}
+
+.chatInputContainer {
+  
+}
+
+.chatInputContainer > input {
+  flex-grow: 2;
+}
+
+.chatInputContainer > input::placeholder, .chatInputContainer > input::-webkit-input-placeholder {
+  color: #8a98a9;
+}
+
+.chatInputContainer > button{
+  height: 52px;
+  width: 75px;
+}
+
+.chatInputContainer > button:active {
+  background: #a0f38c;
+}
+
+.chatInputContainer > button:disabled {
+  background: #842f2f;
+  color: #8a98a9;
 }
