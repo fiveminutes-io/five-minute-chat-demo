@@ -6,7 +6,7 @@ import {FiveMinuteChat} from "five-minute-chat-client/dist/Fiveminutes.api";
 
 import { parseISO, format } from 'date-fns'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
 
 export interface ChatViewProps {
     connectionConfiguration: ConnectionConfiguration;
@@ -188,7 +188,7 @@ export const ChatView = ( props: ChatViewProps) => {
                                             <span>{message.fromUser.Name}</span>
                                         }
                                         {message.fromUser.DisplayId !== userDisplayId && message.fromUser.UserType !== FiveMinuteChat.UserType.System &&
-                                            <span className="whisper-button" onClick={() => handleWhisperClick(message.fromUser)}><FontAwesomeIcon icon={faEnvelope} />&nbsp;{message.fromUser.Name}</span>
+                                            <span className="whisper-button" onClick={() => handleWhisperClick(message.fromUser)}><FontAwesomeIcon className="whisper-icon" icon={faCommentDots} />&nbsp;{message.fromUser.Name}</span>
                                         }
                                        &nbsp;@&nbsp;{message.sentAt}</div>
                                 </div>

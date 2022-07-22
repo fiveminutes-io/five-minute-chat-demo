@@ -169,6 +169,10 @@ button{
   background: transparent;
 }
 
+.whisper-icon {
+  color:white;
+}
+
 .chatLogContainer{
   border-radius: 15px;
   flex-grow: 3;
