@@ -145,15 +145,15 @@ input {
   color:white;
 }
 
+.flex{
+  display: flex;
+}
+
 button{
   border-radius: 20px;
   border: black solid;
   background: #538945;
   color:white;
-}
-
-.flex{
-  display: flex;
 }
 
 .login-button {
@@ -162,6 +162,11 @@ button{
   
   font-size: 14pt;
   font-weight: bold;
+}
+
+.whisper-button {
+  border: 0;
+  background: transparent;
 }
 
 .chatLogContainer{

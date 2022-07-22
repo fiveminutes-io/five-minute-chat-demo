@@ -5,6 +5,8 @@ import {ConnectionConfiguration} from "five-minute-chat-client/dist/ConnectionCo
 import {FiveMinuteChat} from "five-minute-chat-client/dist/Fiveminutes.api";
 
 import { parseISO, format } from 'date-fns'
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 export interface ChatViewProps {
     connectionConfiguration: ConnectionConfiguration;
@@ -22,6 +24,7 @@ interface Message{
 
 export const ChatView = ( props: ChatViewProps) => {
     const scrollDivRef = useRef<null | HTMLDivElement>(null);
+    const inputFieldRef = useRef<null | HTMLInputElement>(null);
 
     const [connectionContainer, setConnectionContainer] = useState<ConnectionContainer>({} );
     const [isConnected, setIsConnected] = useState(false);
@@ -31,15 +34,19 @@ export const ChatView = ( props: ChatViewProps) => {
     const [username, setUsername] = useState<string>();
     const [userDisplayId, setUserDisplayId] = useState<string>();
     
+    const whisperRegexp = /^\/whisper ([A-z0-9]{4,16}) (.*)/;
+    
     let isConnecting = false;
+    let userDisplayIdVar  = "" ;
     
     useEffect(() => {
         if(!isConnecting && connectionContainer.connection === undefined){
             isConnecting = true;
             let connection = new Connection( props.connectionConfiguration );
             connection.onConnectionEstablished( () => setIsConnected(true) );
-            connection.onWelcome( message => onWelcome(message, connection));
-            connection.onUserInfoResponse( message => onUserInfo(message, connection));
+            connection.onWelcome( async message => onWelcome(message, connection));
+            connection.onUserInfoResponse( async message => await onUserInfo(message, connection));
+            connection.onChannelHistory( async message => await onChannelHistory(message));
             connection.onWhisperMessage( message => onWhisperMessage(message));
             connection.onChatMessage( message => onChatMessage(message));
             connection.start();
@@ -50,28 +57,50 @@ export const ChatView = ( props: ChatViewProps) => {
         }
     }, [connectionContainer]);
     
-    const onWelcome = async (message: FiveMinuteChat.ServerWelcome, connection : Connection ) => {
+    const onWelcome = (message: FiveMinuteChat.ServerWelcome, connection : Connection ) => {
         setUserDisplayId( message.DisplayId );
+        userDisplayIdVar = message.DisplayId;
+        
+        const request : FiveMinuteChat.ClientChannelHistoryRequest = {
+            ChannelName: "Global"
+        };
+        connection.sendClientChannelHistoryRequest( request );
     };
 
     const onUserInfo = useCallback(
-        async (message: FiveMinuteChat.ServerUserInfoResponse, connection : Connection | undefined ) => {
-            if(message.UserDisplayId === userDisplayId){
+        (message: FiveMinuteChat.ServerUserInfoResponse, connection : Connection ) => {
+            if(message.UserDisplayId === userDisplayIdVar){
                 setUsername(message.Username);
             }
-            // const request : FiveMinuteChat.ClientChannelHistoryRequest = {
-            //     ChannelName: "Global"
-            // };
-            // await connection.sendClientChannelHistoryRequest( request );
         },
         [userDisplayId]
     );
 
+    const onChannelHistory = useCallback(
+        (message: FiveMinuteChat.ServerChannelHistoryResponse ) => {
+            if( message.ChannelName !== "Global") {
+                return;
+            }
+            let newMessages = message.ChatMessages
+                .sort( (f,s) => parseISO( f.SentAt ).getTime() - parseISO( s.SentAt ).getTime() )
+                .map( message => {
+                    let foo : Message = {
+                        sentAt: format( parseISO( message.SentAt ), "yyyy-MM-dd HH:mm:ss" ),
+                        fromUser: message.FromUser,
+                        content: message.Content
+                    }
+                    return foo;
+                } );
+            
+            setMessages( oldMessages => [...oldMessages, ...newMessages]);
+        },
+        [messages]
+    );
     
     const onWhisperMessage = async (message: FiveMinuteChat.ServerWhisperMessage ) => {
         let dateTime = parseISO( message.SentAt );
-        let newMessage: Message= {
-            sentAt: `${format( dateTime, "HH:mm:ss" )} (whisper)`,
+        let newMessage: Message = {
+            sentAt: `${format( dateTime, "yyyy-MM-dd HH:mm:ss" )} (whisper)`,
             fromUser: message.FromUser,
             content: message.Content
         };
@@ -80,8 +109,8 @@ export const ChatView = ( props: ChatViewProps) => {
 
     const onChatMessage = async (message: FiveMinuteChat.ServerChatMessage ) => {
         let dateTime = parseISO( message.SentAt );
-        let newMessage: Message= {
-            sentAt: format( dateTime, "HH:mm:ss" ),
+        let newMessage: Message = {
+            sentAt: format( dateTime, "yyyy-MM-dd HH:mm:ss" ),
             fromUser: message.FromUser,
             content: message.Content
         };
@@ -106,6 +135,11 @@ export const ChatView = ( props: ChatViewProps) => {
             await sendMessage();
         }
     }
+
+    const handleWhisperClick = async (userInfo : FiveMinuteChat.UserInfo) => {
+        setCurrentMessageTo(`/whisper ${userInfo.DisplayId} `);
+        inputFieldRef.current?.focus();
+    }
     
     const sendMessage = async ( ) => {
         if(!canSendMessage) {
@@ -113,11 +147,22 @@ export const ChatView = ( props: ChatViewProps) => {
         }
         if(connectionContainer.connection === undefined)
             return;
-        let newMessage : FiveMinuteChat.ClientChatMessage = {
-            Content: currentMessage,
-            ChannelName: "Global"
-        };
-        await connectionContainer.connection.sendClientChatMessage( newMessage );
+        
+        let match = currentMessage.match( whisperRegexp );
+        if( match ){
+            let newMessage : FiveMinuteChat.ClientWhisperMessage = {
+                Content: match[2],
+                Recipient: match[1]
+            };
+            await connectionContainer.connection.sendClientWhisperMessage( newMessage );
+        }
+        else {
+            let newMessage : FiveMinuteChat.ClientChatMessage = {
+                Content: currentMessage,
+                ChannelName: "Global"
+            };
+            await connectionContainer.connection.sendClientChatMessage( newMessage );
+        }
         setCurrentMessageTo("");
     };
 
@@ -143,9 +188,9 @@ export const ChatView = ( props: ChatViewProps) => {
                                             <span>{message.fromUser.Name}</span>
                                         }
                                         {message.fromUser.DisplayId !== userDisplayId && message.fromUser.UserType !== FiveMinuteChat.UserType.System &&
-                                            <button>{message.fromUser.Name}</button>
+                                            <span className="whisper-button" onClick={() => handleWhisperClick(message.fromUser)}><FontAwesomeIcon icon={faEnvelope} />&nbsp;{message.fromUser.Name}</span>
                                         }
-                                        @ {message.sentAt}</div>
+                                       &nbsp;@&nbsp;{message.sentAt}</div>
                                 </div>
                                 <div className="horizontal-list">
                                     <div className="margin-sm chatEntryContent start">{message.content}</div>
@@ -156,7 +201,7 @@ export const ChatView = ( props: ChatViewProps) => {
                     <div ref={scrollDivRef} />
                 </div>
                 <div className="chatInputContainer padding-md horizontal-list">
-                    <input type="text" placeholder="Type a message here..." value={currentMessage} onChange={currentMessageEdited} onKeyDown={event => handleInputKeyDown(event.key)} className="margin-sm" />
+                    <input ref={inputFieldRef} type="text" placeholder="Type a message here..." value={currentMessage} onChange={currentMessageEdited} onKeyDown={event => handleInputKeyDown(event.key)} className="margin-sm" />
                     <button onClick={sendMessage} className="margin-sm" disabled={!canSendMessage} >Send</button>
                 </div>
             </div>

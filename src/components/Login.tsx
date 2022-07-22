@@ -1,5 +1,6 @@
 import {ChangeEvent, useEffect, useState} from "react";
 import {ConnectionConfiguration} from "five-minute-chat-client/dist/ConnectionConfiguration";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export interface LoginProps {
     connectionConfiguration: ConnectionConfiguration;
