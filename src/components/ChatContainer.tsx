@@ -8,10 +8,10 @@ const randomstring = require("random-string");
 
 export const ChatContainer = () => {
     const configuration : ConnectionConfiguration = new ConnectionConfiguration(
-        // "https://signalr.gateway.preprod.fiveminutes.io",
-        "https://localhost",
-        // 443,
-        6001,
+        "https://signalr.gateway.preprod.fiveminutes.io",
+        // "https://localhost",
+        443,
+        // 6001,
         "Demo01",
         "DemoSecret",
         `user-${randomstring()}`
