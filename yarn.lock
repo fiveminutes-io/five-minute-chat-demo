@@ -1478,9 +1478,9 @@
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
 
 "@microsoft/signalr@^6.0.6":
-  version "6.0.6"
-  resolved "https://registry.yarnpkg.com/@microsoft/signalr/-/signalr-6.0.6.tgz#6ba53623a64df64a80126694db4e37146647d3fe"
-  integrity sha512-3dTLtgwEXUeE9R/3NZQslh1B2WbppeHVXdnpvSZc7Yz+tP5Yiw3KCVUHwKUVnYmd9/2v3DaI/pvCdihrss49zA==
+  version "6.0.7"
+  resolved "https://registry.yarnpkg.com/@microsoft/signalr/-/signalr-6.0.7.tgz#8651d6807a0430575ce51960c254deab8d682b4c"
+  integrity sha512-CoIz8K0IpaCGbI4rr2W8RHYA8Yq0KqY8DNsJzHw3UEWTJ3KqhWqeVCE8R24czzcsoUrE28xltEQ6qNTXZDHf3g==
   dependencies:
     abort-controller "^3.0.0"
     eventsource "^1.0.7"
@@ -4380,9 +4380,9 @@ find-up@^5.0.0:
     path-exists "^4.0.0"
 
 five-minute-chat-client@^1.0.7:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/five-minute-chat-client/-/five-minute-chat-client-1.0.9.tgz#2b83bcc8dce052c3a8098a181195ea8201fdd479"
-  integrity sha512-SCihZMCgTgLozzXwaICdWvjvTTKI9PW+X3muExShvqcQuNh3QJh03zUlS/6Z/ks84ZbFx9kN+PKU6kYpulv0iQ==
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/five-minute-chat-client/-/five-minute-chat-client-1.0.12.tgz#6a1493e5dd46b4262004106273936dd9189d0a11"
+  integrity sha512-O4748207UT0dKgoz3sF8aZ7h7kBuBfqOYodzLlSfhRMNgKk9r6Q9PHQ/56YEnQrzzdYXuJTvfujNrW+g9XOcpg==
   dependencies:
     "@microsoft/signalr" "^6.0.6"
     "@types/uuid" "^8.3.4"
@@ -9003,7 +9003,12 @@ write-file-atomic@^3.0.0:
     signal-exit "^3.0.2"
     typedarray-to-buffer "^3.1.5"
 
-ws@^7.4.5, ws@^7.4.6:
+ws@^7.4.5:
+  version "7.5.9"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.9.tgz#54fa7db29f4c7cec68b1ddd3a89de099942bb591"
+  integrity sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==
+
+ws@^7.4.6:
   version "7.5.8"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.8.tgz#ac2729881ab9e7cbaf8787fe3469a48c5c7f636a"
   integrity sha512-ri1Id1WinAX5Jqn9HejiGb8crfRio0Qgu8+MtL36rlTA6RLsMdWt1Az/19A2Qij6uSHUMphEFaTKa4WG+UNHNw==

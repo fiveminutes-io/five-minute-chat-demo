@@ -1,4 +1,4 @@
-import {ChangeEvent, KeyboardEventHandler, useEffect, useRef, useState} from "react";
+import {ChangeEvent, KeyboardEventHandler, useCallback, useEffect, useRef, useState} from "react";
 
 import {Connection} from "five-minute-chat-client/dist/Connection";
 import {ConnectionConfiguration} from "five-minute-chat-client/dist/ConnectionConfiguration";
@@ -16,7 +16,7 @@ interface ConnectionContainer{
 
 interface Message{
     sentAt: string;
-    from: string;
+    fromUser: FiveMinuteChat.UserInfo;
     content: string;
 }
 
@@ -28,6 +28,8 @@ export const ChatView = ( props: ChatViewProps) => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [canSendMessage, setCanSendMessage] = useState<boolean>(false );
     const [currentMessage, setCurrentMessage] = useState<string>("");
+    const [username, setUsername] = useState<string>();
+    const [userDisplayId, setUserDisplayId] = useState<string>();
     
     let isConnecting = false;
     
@@ -36,24 +38,41 @@ export const ChatView = ( props: ChatViewProps) => {
             isConnecting = true;
             let connection = new Connection( props.connectionConfiguration );
             connection.onConnectionEstablished( () => setIsConnected(true) );
-            connection.onWhisperMessage(onWhisperMessage);
-            connection.onChatMessage(onChatMessage);
+            connection.onWelcome( message => onWelcome(message, connection));
+            connection.onUserInfoResponse( message => onUserInfo(message, connection));
+            connection.onWhisperMessage( message => onWhisperMessage(message));
+            connection.onChatMessage( message => onChatMessage(message));
             connection.start();
             setConnectionContainer({connection: connection });
         }
-    }, []);
-    
-    useEffect(() => {
-        if(connectionContainer.connection !== undefined){
+        else if(connectionContainer.connection !== undefined){
             isConnecting = false;
         }
     }, [connectionContainer]);
+    
+    const onWelcome = async (message: FiveMinuteChat.ServerWelcome, connection : Connection ) => {
+        setUserDisplayId( message.DisplayId );
+    };
+
+    const onUserInfo = useCallback(
+        async (message: FiveMinuteChat.ServerUserInfoResponse, connection : Connection | undefined ) => {
+            if(message.UserDisplayId === userDisplayId){
+                setUsername(message.Username);
+            }
+            // const request : FiveMinuteChat.ClientChannelHistoryRequest = {
+            //     ChannelName: "Global"
+            // };
+            // await connection.sendClientChannelHistoryRequest( request );
+        },
+        [userDisplayId]
+    );
+
     
     const onWhisperMessage = async (message: FiveMinuteChat.ServerWhisperMessage ) => {
         let dateTime = parseISO( message.SentAt );
         let newMessage: Message= {
             sentAt: `${format( dateTime, "HH:mm:ss" )} (whisper)`,
-            from: message.FromUser.Name,
+            fromUser: message.FromUser,
             content: message.Content
         };
         setMessages( oldMessages => [...oldMessages, newMessage]);
@@ -63,7 +82,7 @@ export const ChatView = ( props: ChatViewProps) => {
         let dateTime = parseISO( message.SentAt );
         let newMessage: Message= {
             sentAt: format( dateTime, "HH:mm:ss" ),
-            from: message.FromUser.Name,
+            fromUser: message.FromUser,
             content: message.Content
         };
         setMessages( oldMessages => [...oldMessages, newMessage]);
@@ -108,6 +127,9 @@ export const ChatView = ( props: ChatViewProps) => {
                 {!isConnected && 
                     <p>Connecting...</p>
                 }
+                { userDisplayId !== undefined &&
+                    <div>Logged in  {username} (@{userDisplayId})</div>
+                }
                 <div className="chatLogContainer padding-sm">
                     {messages.length === 0 &&
                         <h4>Wow, such empty!</h4>    
@@ -116,7 +138,14 @@ export const ChatView = ( props: ChatViewProps) => {
                         return (
                             <div key={i} className="chatEntryContainer vertical-list margin-md padding-sm">
                                 <div className="start horizontal-list">
-                                    <div className="chatEntryTimestamp">{message.from} @ {message.sentAt}</div>
+                                    <div className="chatEntryTimestamp">
+                                        {( message.fromUser.DisplayId === userDisplayId || message.fromUser.UserType === FiveMinuteChat.UserType.System ) &&
+                                            <span>{message.fromUser.Name}</span>
+                                        }
+                                        {message.fromUser.DisplayId !== userDisplayId && message.fromUser.UserType !== FiveMinuteChat.UserType.System &&
+                                            <button>{message.fromUser.Name}</button>
+                                        }
+                                        @ {message.sentAt}</div>
                                 </div>
                                 <div className="horizontal-list">
                                     <div className="margin-sm chatEntryContent start">{message.content}</div>
