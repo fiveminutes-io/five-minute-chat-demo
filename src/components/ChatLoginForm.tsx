@@ -18,7 +18,7 @@ const SERVER_OPTIONS = [
 
 export const ChatLoginForm = ({ onLogin, status, error }: ChatLoginFormProps) => {
   const [username, setUsername] = useState("");
-  const [applicationId, setApplicationId] = useState("1f73764f-5787-49ee-898f-49cbe9cd3e3a");
+  const [applicationId, setApplicationId] = useState("Demo01");
   const [applicationSecret, setApplicationSecret] = useState("DemoSecret");
   const [serverUrl, setServerUrl] = useState(SERVER_OPTIONS[0].url);
 
