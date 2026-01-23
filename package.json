@@ -1,5 +1,5 @@
 {
-  "name": "test-client",
+  "name": "fmc-chat-demo",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -29,11 +29,11 @@
     "vite": "^7.2.4"
   },
   "dependencies": {
-    "@fiveminutes-io/chat-client": "file:../chat-client",
-    "@fiveminutes-io/five-minute-chat-contracts": "file:../contracts",
-    "@fiveminutes-io/support-client": "file:../support-client",
+    "@fiveminutes-io/chat-client": "^1.0.0",
+    "@fiveminutes-io/five-minute-chat-contracts": "^1.8.1",
+    "@fiveminutes-io/support-client": "^1.0.0",
     "@hookform/resolvers": "^3.10.0",
-    "@microsoft/signalr": "^10.0.0",
+    "@microsoft/signalr": "^8.0.0",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-aspect-ratio": "^1.1.7",
