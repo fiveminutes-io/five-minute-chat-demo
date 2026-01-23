@@ -29,9 +29,9 @@
     "vite": "^7.2.4"
   },
   "dependencies": {
-    "@fiveminutes-io/chat-client": "^1.0.0",
-    "@fiveminutes-io/five-minute-chat-contracts": "^1.8.1",
-    "@fiveminutes-io/support-client": "^1.0.0",
+    "@fiveminutes-io/chat-client": "^1.0.2",
+    "@fiveminutes-io/five-minute-chat-contracts": "^1.8.3",
+    "@fiveminutes-io/support-client": "^1.0.2",
     "@hookform/resolvers": "^3.10.0",
     "@microsoft/signalr": "^8.0.0",
     "@radix-ui/react-accordion": "^1.2.11",

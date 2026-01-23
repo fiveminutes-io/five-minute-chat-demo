@@ -498,20 +498,20 @@
     "@eslint/core" "^0.17.0"
     levn "^0.4.1"
 
-"@fiveminutes-io/chat-client@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@fiveminutes-io/chat-client/-/chat-client-1.0.0.tgz#36d99b407d85e295449572555698c8d53472ba03"
-  integrity sha512-P6gjTOacntj/Ii8el+s4+gARFE3bJYvHtwlSAZorUMAH8J70eHpQx/eB4WIlOxeP3OOJg33Nd0GJKmfp05J7AA==
+"@fiveminutes-io/chat-client@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@fiveminutes-io/chat-client/-/chat-client-1.0.2.tgz#803f729228c6881a0d887dd176e122203dca1407"
+  integrity sha512-HGeP/BgIkvz4ny/hZZzxLkO3gJ96/GGu0F58QHE5whSnhuhtmRnzGnnBkpHhnWDRlBD0lGucqiCDvbgNoRf5/Q==
 
-"@fiveminutes-io/five-minute-chat-contracts@^1.8.1":
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/@fiveminutes-io/five-minute-chat-contracts/-/five-minute-chat-contracts-1.8.1.tgz#95b8d612451dc7ed1015d9392837151ddddb0222"
-  integrity sha512-UHNYVa9m1oeWbltLoJzlYKBLmlrgP5IxqVFPfEkVE8wix5W8KqhidTbWCakOikt0YkRHPJuVDUjRYbb5Eru2LQ==
+"@fiveminutes-io/five-minute-chat-contracts@^1.8.3":
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/@fiveminutes-io/five-minute-chat-contracts/-/five-minute-chat-contracts-1.8.3.tgz#f8fc6ec7bc0f0fab468603f2e93139d715f71d26"
+  integrity sha512-K9BG2mIToBa9MthUZlBJs1ljJNWisj5QZ7VyxkwCXvxdOkxfjetbR36H7jrcYfVxP11s8UuqT7UuoMB0M9e0pg==
 
-"@fiveminutes-io/support-client@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@fiveminutes-io/support-client/-/support-client-1.0.0.tgz#645d606d291995447de05005644f465841bbe317"
-  integrity sha512-0LjFjd6KAFfwIXn9nvLMDfOVYLuJm/raesdLSjbu2q3/O8XAZ+p3zXq56G7GceYCQGhJW7p+qkxvTPtJrKFQHQ==
+"@fiveminutes-io/support-client@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@fiveminutes-io/support-client/-/support-client-1.0.2.tgz#2a736510e521cf50f0cc7902f0c518f20e23bf9e"
+  integrity sha512-3U4a3PAz6tobNGmarL6HDFJZQJM0qEQklnaOakl3iVSWCq5UNNNZScW3LlsMo6iYIR8BeiV0kbYO9+qsBBNpdA==
 
 "@floating-ui/core@^1.7.3":
   version "1.7.3"
